@@ -5,7 +5,7 @@ const port = 5000;
 
 require('dotenv').config();
 const Project = require('./Project');
-const Skill = require('./Project');
+const Skill = require('./Skill');
 
 app.get('/', (req, res) => {
     res.send('Hello, World!');
@@ -19,10 +19,10 @@ app.get('/projects', async (req, res) => {
         res.status(500).json({ message: err.message });
     }
 });
-app.get('/skills', async (req, res) => {
+app.get('/skill', async (req, res) => {
     try {
-        const skills = await Skill.find();
-        res.json(skills);
+        const skill = await Skill.find();
+        res.json(skill);
     } catch (err) {
         res.status(500).json({ message: err.message });
     }
