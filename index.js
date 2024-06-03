@@ -73,6 +73,47 @@ app.delete('/projects/:id', async (req, res) => {
         res.status(500).json({ message: err.message });
     }
 });
+//create an endpoint to add a new skill
+app.post('/skill', async (req, res) => {
+    const skill = new Skill(req.body);
+    try {
+        const newSkill = await skill.save();
+        res.status(201).json(newSkill);
+    } catch (err) {
+        res.status(400).json({ message: err.message });
+    }
+});
+//create an endpoint to update a skill by id
+app.patch('/skill/:id', async (req, res) => {
+    try {
+        const skill = await Skill.findById(req.params.id);
+        if (skill) {
+            skill.set(req.body);
+            const updatedSkill = await skill.save();
+            res.json(updatedSkill);
+
+        } else {
+            res.status(404).json({ message: 'Skill not found' });
+        }
+
+    } catch (err) {
+        res.status(400).json({ message: err.message });
+    }
+});
+//Delete a skill by id
+app.delete('/skill/:id', async (req, res) => {
+    try {
+        const skill = await Skill.findByIdAndDelete(req.params.id);
+        if (skill) {
+            res.json({ message: 'Skill deleted' });
+        } else {
+            res.status(404).json({ message: 'Skill not found' });
+        }
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+});
+
 app.listen(port, () => {
     console.log(`Server running at http://localhost:${port}/`);
 });
